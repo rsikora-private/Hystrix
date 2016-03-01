@@ -1,7 +1,9 @@
 package com.sikorasoftware.web;
 
+import com.sikorasoftware.command.TimeoutCommand;
 import com.sikorasoftware.model.Message;
 import com.sikorasoftware.threepartservice.DummyExternalService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,18 +17,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/hystrix")
+@Slf4j
 public class HystrixController {
 
-    private final DummyExternalService dummyExternalService;
+    private final DummyExternalService externalService;
 
     @Autowired
-    public HystrixController(DummyExternalService dummyExternalService) {
-        this.dummyExternalService = dummyExternalService;
+    public HystrixController(final DummyExternalService dummyExternalService) {
+        this.externalService = dummyExternalService;
     }
-
+    
     @RequestMapping(method= RequestMethod.GET, path = "/timeout")
-    public @ResponseBody Message sayHello(@RequestParam(value="name", required=false, defaultValue="Stranger") String name) {
+    public @ResponseBody Message timeout(@RequestParam(value="param", required=false) final String name) {
+        log.info("Invoking timeout");
 
-        return dummyExternalService.methodWithLongResponseCausedTimeout();
+        return (Message) new TimeoutCommand(externalService, Integer.parseInt(name)).execute();
     }
 }

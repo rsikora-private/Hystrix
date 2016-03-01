@@ -7,6 +7,8 @@ import com.sikorasoftware.model.Message;
  */
 public interface ExternalService {
 
-    Message methodWithLongResponseCausedTimeout();
+    String EXTERNAL_SERVICE = "Ext1";
+
+    Message methodWithLongResponseCausedTimeout(Integer time);
 
 }
