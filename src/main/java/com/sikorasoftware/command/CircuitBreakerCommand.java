@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class CircleBreakerCommand extends HystrixCommand<Message> {
+public class CircuitBreakerCommand extends HystrixCommand<Message> {
 
-    protected CircleBreakerCommand(HystrixCommandGroupKey group) {
+    protected CircuitBreakerCommand(HystrixCommandGroupKey group) {
         super(group);
     }
 
