@@ -11,4 +11,8 @@ public interface ExternalService {
 
     Message methodWithLongResponseCausedTimeout(Integer time);
 
+    Message methodForCache(String arg);
+
+    Message methodForCircleBreaker(int errorRate);
+
 }
