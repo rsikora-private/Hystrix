@@ -1,11 +1,13 @@
 package com.sikorasoftware.web;
 
 import com.sikorasoftware.command.CacheCommand;
+import com.sikorasoftware.command.CircuitBreakerCommand;
 import com.sikorasoftware.command.TimeoutCommand;
 import com.sikorasoftware.model.Message;
 import com.sikorasoftware.threepartservice.DummyExternalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.Identifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +27,12 @@ public class HystrixController {
     @Autowired
     public HystrixController(final DummyExternalService dummyExternalService) {
         this.externalService = dummyExternalService;
+    }
+
+    @RequestMapping(method= RequestMethod.GET, path = "/ping")
+    public @ResponseBody Message ping() {
+        System.out.println(Thread.currentThread().getName());
+        return new Message("Ping message");
     }
 
     @RequestMapping(method= RequestMethod.GET, path = "/timeout")
@@ -58,5 +66,18 @@ public class HystrixController {
 
         final CacheCommand command3 = new CacheCommand(externalService, param);
         return command3.execute();
+    }
+
+    @RequestMapping(method= RequestMethod.GET, path = "/circuitbreaker")
+    public @ResponseBody Message circuitbreaker(@RequestParam(value="param", required=false) final String param) {
+
+        return externalService.methodForCircleBreaker(Float.parseFloat(param));
+    }
+
+    @RequestMapping(method= RequestMethod.GET, path = "/hystrix/circuitbreaker")
+    public @ResponseBody Message circuitbreakerWithHystrix(@RequestParam(value="param", required=false) final String param) {
+
+        final CircuitBreakerCommand command = new CircuitBreakerCommand(externalService, Float.parseFloat(param));
+        return command.execute();
     }
 }

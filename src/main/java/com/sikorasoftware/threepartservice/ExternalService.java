@@ -13,6 +13,6 @@ public interface ExternalService {
 
     Message methodForCache(String arg);
 
-    Message methodForCircleBreaker(int errorRate);
+    Message methodForCircleBreaker(float errorRate);
 
 }

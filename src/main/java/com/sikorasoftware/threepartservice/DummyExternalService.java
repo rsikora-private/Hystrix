@@ -30,15 +30,19 @@ public class DummyExternalService implements ExternalService {
     }
 
     @Override
-    public Message methodForCache(String arg) {
+    public Message methodForCache(final String arg) {
         log.info("Count : " + counter.incrementAndGet());
 
         return new Message("Cache message");
     }
 
     @Override
-    public Message methodForCircleBreaker(int errorRate) {
+    public Message methodForCircleBreaker(final float errorRate) {
+        log.info("Count : " + counter.incrementAndGet());
 
-        throw new RuntimeException("500");
+        if(counter.get() > 1000 * errorRate) {
+            throw new RuntimeException("External Service exception");
+        }
+        return new Message("CB message");
     }
 }

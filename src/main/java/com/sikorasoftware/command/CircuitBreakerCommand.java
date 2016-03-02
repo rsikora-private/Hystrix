@@ -3,6 +3,7 @@ package com.sikorasoftware.command;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.sikorasoftware.model.Message;
+import com.sikorasoftware.threepartservice.ExternalService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -12,13 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CircuitBreakerCommand extends HystrixCommand<Message> {
 
-    protected CircuitBreakerCommand(HystrixCommandGroupKey group) {
-        super(group);
+    private final ExternalService externalService;
+    private final float rateError;
+
+    public CircuitBreakerCommand(final ExternalService externalService, final float rateError) {
+        super(HystrixCommandGroupKey.Factory.asKey(ExternalService.EXTERNAL_SERVICE));
+        this.externalService = externalService;
+        this.rateError = rateError;
     }
 
     @Override
     protected Message run() throws Exception {
-      throw new IllegalStateException("Not supported yet!");
+        return externalService.methodForCircleBreaker(rateError);
     }
 
     @Override
@@ -27,5 +33,4 @@ public class CircuitBreakerCommand extends HystrixCommand<Message> {
 
         throw new RuntimeException("Server error !!!");
     }
-
 }
