@@ -9,7 +9,7 @@ public interface ExternalService {
 
     String EXTERNAL_SERVICE = "Ext1";
 
-    Message methodWithLongResponseCausedTimeout(Integer time);
+    Message methodWithLongResponseCausedTimeout(int time);
 
     Message methodForCache(String arg);
 

@@ -30,7 +30,6 @@ public class CircuitBreakerCommand extends HystrixCommand<Message> {
     @Override
     protected Message getFallback() {
         log.info("fallback");
-
         throw new RuntimeException("Server error !!!");
     }
 }

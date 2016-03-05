@@ -43,7 +43,6 @@ public class HystrixController {
     
     @RequestMapping(method= RequestMethod.GET, path = "/hystrix/timeout")
     public @ResponseBody Message timeoutWithHystrix(@RequestParam(value="param", required=false) final String param) {
-
         final TimeoutCommand command = new TimeoutCommand(externalService, Integer.parseInt(param));
         return command.execute();
     }
@@ -57,26 +56,21 @@ public class HystrixController {
 
     @RequestMapping(method= RequestMethod.GET, path = "/hystrix/cache")
     public @ResponseBody Message cacheWithHystrix(@RequestParam(value="param", required=false) final String param) {
-
         final CacheCommand command1 = new CacheCommand(externalService, param);
         command1.execute();
-
         final CacheCommand command2 = new CacheCommand(externalService, param);
         command2.execute();
-
         final CacheCommand command3 = new CacheCommand(externalService, param);
         return command3.execute();
     }
 
     @RequestMapping(method= RequestMethod.GET, path = "/circuitbreaker")
     public @ResponseBody Message circuitbreaker(@RequestParam(value="param", required=false) final String param) {
-
         return externalService.methodForCircleBreaker(Float.parseFloat(param));
     }
 
     @RequestMapping(method= RequestMethod.GET, path = "/hystrix/circuitbreaker")
     public @ResponseBody Message circuitbreakerWithHystrix(@RequestParam(value="param", required=false) final String param) {
-
         final CircuitBreakerCommand command = new CircuitBreakerCommand(externalService, Float.parseFloat(param));
         return command.execute();
     }

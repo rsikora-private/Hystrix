@@ -28,19 +28,15 @@ public class TimeoutCommand extends HystrixCommand<Message> {
     @Override
     protected Message run() throws Exception {
         log.info("start running ...");
-
         final Message message = externalService.methodWithLongResponseCausedTimeout((Integer)
                 ObjectUtils.defaultIfNull(timeout, TIMEOUT));
-
         log.info("end running ...");
-
         return message;
     }
 
     @Override
     protected Message getFallback() {
         log.info("fallback");
-
         throw new RuntimeException("Server error !!!");
     }
 }

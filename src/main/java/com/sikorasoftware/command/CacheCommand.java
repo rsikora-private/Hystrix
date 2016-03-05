@@ -25,18 +25,14 @@ public class CacheCommand extends HystrixCommand<Message> {
     @Override
     protected Message run() throws Exception {
         log.info("start running ...");
-
         final Message message = externalService.methodForCache(arg);
-
         log.info("end running ...");
-
         return message;
     }
 
     @Override
     protected Message getFallback() {
         log.info("fallback");
-
         throw new RuntimeException("Server error !!!");
     }
 
