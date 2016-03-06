@@ -3,7 +3,9 @@ package com.sikorasoftware.threepartservice;
 import com.sikorasoftware.model.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Created by robertsikora on 01.03.2016.
  */
@@ -39,7 +41,7 @@ public class DummyExternalService implements ExternalService {
     }
 
     private void throwExceptionForGivenRate(final float errorRate) {
-        if(counter.get() > 1000 * errorRate) {
+        if (counter.get() > 1000 * errorRate) {
             throw new RuntimeException("External Service exception");
         }
     }

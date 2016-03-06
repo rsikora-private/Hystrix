@@ -18,26 +18,26 @@ public class DemeterRule {
     alt + ctrl + C  -> make static final
     */
 
-    private class Description{
+    private class Description {
         private String text;
     }
 
-    private class Context{
+    private class Context {
         private Description description;
 
-        public String getTextOfDescription(){
+        public String getTextOfDescription() {
             return description.text;
         }
     }
 
     //bad practice
-    private void showDescription(final Context context){
+    private void showDescription(final Context context) {
         Assert.notNull(context);
         System.out.println(context.description.text);
     }
 
     //good practice
-    private void showDescription2(final Context context){
+    private void showDescription2(final Context context) {
         Assert.notNull(context);
         final ArrayList<Object> objects = new ArrayList<>(); // ctrl + alt + V
         System.out.println(context.getTextOfDescription());

@@ -1,6 +1,9 @@
 package com.sikorasoftware.command;
 
-import com.netflix.hystrix.*;
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixCommandKey;
+import com.netflix.hystrix.HystrixCommandProperties;
+import com.netflix.hystrix.HystrixThreadPoolProperties;
 import com.sikorasoftware.model.Message;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +35,6 @@ public class ConcurrentUserCommand extends HystrixCommand<Message> {
     @Override
     protected Message run() throws Exception {
         log.info(Thread.currentThread().getName());
-
         return new Message("Concurrent User");
     }
 
