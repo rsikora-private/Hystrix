@@ -18,10 +18,9 @@ public class TomcatConfiguration {
 
     private Connector createConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11Protocol");
-        //Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+       // Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setPort(8009);
-
-        return connector;
+        return  connector;
     }
 
 }
